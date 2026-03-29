@@ -8,7 +8,7 @@ const PORT = process.env.PORT || 3000;
 app.use(cors());
 app.use(express.json());
 
-// ─── Helper: تنسيق الأرقام ───────────────────────────────
+// â”€â”€â”€ Helper: طھظ†ط³ظٹظ‚ ط§ظ„ط£ط±ظ‚ط§ظ… â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 function formatNum(n) {
   if (!n) return '0';
   n = parseInt(n);
@@ -17,7 +17,7 @@ function formatNum(n) {
   return String(n);
 }
 
-// ─── Helper: تنسيق المدة ─────────────────────────────────
+// â”€â”€â”€ Helper: طھظ†ط³ظٹظ‚ ط§ظ„ظ…ط¯ط© â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 function formatDuration(sec) {
   if (!sec) return '0:00';
   const m = Math.floor(sec / 60);
@@ -25,21 +25,21 @@ function formatDuration(sec) {
   return `${m}:${s}`;
 }
 
-// ─── Route: الصفحة الرئيسية ──────────────────────────────
+// â”€â”€â”€ Route: ط§ظ„طµظپط­ط© ط§ظ„ط±ط¦ظٹط³ظٹط© â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 app.get('/', (req, res) => {
-  res.json({ status: 'ok', message: 'SaveZone TikTok API ✅' });
+  res.json({ status: 'ok', message: 'SaveZone TikTok API âœ…' });
 });
 
-// ─── Route: جلب بيانات الفيديو ───────────────────────────
+// â”€â”€â”€ Route: ط¬ظ„ط¨ ط¨ظٹط§ظ†ط§طھ ط§ظ„ظپظٹط¯ظٹظˆ â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 app.get('/info', async (req, res) => {
   const url = (req.query.url || '').trim();
 
   if (!url) {
-    return res.status(400).json({ error: 'أرسل رابط الفيديو عبر ?url=' });
+    return res.status(400).json({ error: 'ط£ط±ط³ظ„ ط±ط§ط¨ط· ط§ظ„ظپظٹط¯ظٹظˆ ط¹ط¨ط± ?url=' });
   }
 
   if (!url.includes('tiktok.com')) {
-    return res.status(400).json({ error: 'يجب أن يكون الرابط من TikTok' });
+    return res.status(400).json({ error: 'ظٹط¬ط¨ ط£ظ† ظٹظƒظˆظ† ط§ظ„ط±ط§ط¨ط· ظ…ظ† TikTok' });
   }
 
   try {
@@ -50,7 +50,7 @@ app.get('/info', async (req, res) => {
       preferFreeFormats:   true,
     });
 
-    // ── اختيار أفضل رابط فيديو ──────────────────────────
+    // â”€â”€ ط§ط®طھظٹط§ط± ط£ظپط¶ظ„ ط±ط§ط¨ط· ظپظٹط¯ظٹظˆ â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     const formats = output.formats || [];
     let videoUrl = null;
     let videoHD  = null;
@@ -66,7 +66,7 @@ app.get('/info', async (req, res) => {
     videoHD  = videoHD  || videoUrl;
 
     const data = {
-      title:         output.title        || output.description || 'بدون وصف',
+      title:         output.title        || output.description || 'ط¨ط¯ظˆظ† ظˆطµظپ',
       thumbnail:     output.thumbnail    || '',
       author:        output.uploader     || output.creator     || 'Unknown',
       author_id:     output.uploader_id  || '',
@@ -86,9 +86,50 @@ app.get('/info', async (req, res) => {
   } catch (err) {
     console.error('yt-dlp error:', err.message);
     return res.status(422).json({
-      error: 'تعذّر جلب الفيديو. تأكد من صحة الرابط.',
+      error: 'طھط¹ط°ظ‘ط± ط¬ظ„ط¨ ط§ظ„ظپظٹط¯ظٹظˆ. طھط£ظƒط¯ ظ…ظ† طµط­ط© ط§ظ„ط±ط§ط¨ط·.',
       detail: err.message?.slice(0, 200),
     });
+  }
+});
+
+// â”€â”€â”€ Route: طھط­ظ…ظٹظ„ ط§ظ„ظپظٹط¯ظٹظˆ ط¹ط¨ط± Proxy â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+app.get('/download', async (req, res) => {
+  const videoUrl = (req.query.url || '').trim();
+  const type     = (req.query.type || 'mp4').trim();
+
+  if (!videoUrl) return res.status(400).json({ error: 'ط£ط±ط³ظ„ ط±ط§ط¨ط· ط§ظ„ظپظٹط¯ظٹظˆ' });
+
+  try {
+    const https    = require('https');
+    const http     = require('http');
+    const parsed   = new URL(videoUrl);
+    const lib      = parsed.protocol === 'https:' ? https : http;
+    const filename = `tiktok_savezone.${type === 'mp3' ? 'mp3' : 'mp4'}`;
+    const mime     = type === 'mp3' ? 'audio/mpeg' : 'video/mp4';
+
+    res.setHeader('Content-Disposition', `attachment; filename="${filename}"`);
+    res.setHeader('Content-Type', mime);
+
+    lib.get(videoUrl, {
+      headers: {
+        'User-Agent': 'Mozilla/5.0 (Linux; Android 10) AppleWebKit/537.36 Chrome/120 Mobile Safari/537.36',
+        'Referer': 'https://www.tiktok.com/',
+      }
+    }, (proxyRes) => {
+      if (proxyRes.statusCode === 301 || proxyRes.statusCode === 302) {
+        const loc = proxyRes.headers.location;
+        return res.redirect('/download?url=' + encodeURIComponent(loc) + '&type=' + type);
+      }
+      if (proxyRes.headers['content-length']) {
+        res.setHeader('Content-Length', proxyRes.headers['content-length']);
+      }
+      proxyRes.pipe(res);
+    }).on('error', (e) => {
+      if (!res.headersSent) res.status(500).json({ error: 'ظپط´ظ„ ط§ظ„طھط­ظ…ظٹظ„: ' + e.message });
+    });
+
+  } catch (err) {
+    if (!res.headersSent) res.status(500).json({ error: err.message });
   }
 });
 
